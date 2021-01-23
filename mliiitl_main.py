@@ -29,6 +29,23 @@ class mliiitl:
             except Exception:
                 pass 
         return self
-        
+
+    def save_model_instance(model):
+        '''
+        saves model
+        '''
+        return path
+    
+    def splice_dataset_randomly():
+        '''
+        splices 1/8th data randomly for training
+        '''
+        return dataset
+    
+    def test_performance()
+        return list of trained models
+
+    def get_plots():
+        return list of plot object    
         
 
