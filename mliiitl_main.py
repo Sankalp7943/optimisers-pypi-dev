@@ -30,7 +30,8 @@ class mliiitl:
                 pass 
         return self
 
-    def delete_model_instance(model):
+    def delete_model_instance(temp):
+        pass
 
 
     def save_model_instance(model):
@@ -51,9 +52,50 @@ class mliiitl:
 
         return spliced_x_train,spliced_y_train
     
-    def test_performance()
-    
-        return list of trained models
+    def test_performance(self):
+        '''
+
+        '''
+        temp = save_model_instance(self._model)
+        spliced_x_train, spliced_y_train = splice_dataset_randomly(self._x_train, self._y_train)
+
+        model_sgd = tf.keras.models.load_model('temp_model')
+        model_rmsprop = tf.keras.models.load_model('temp_model')
+        model_adagrad = tf.keras.models.load_model('temp_model')
+        model_adadelta = tf.keras.models.load_model('temp_model')
+        model_adam = tf.keras.models.load_model('temp_model')
+        model_ftrl = tf.keras.models.load_model('temp_model')
+        model_nadam = tf.keras.models.load_model('temp_model')
+        model_adamax = tf.keras.models.load_model('temp_model')
+
+        validation = (self._x_test, self._y_test)
+
+        model_sgd.compile(optimizer = 'SGD', loss = self._loss, metrics = ['acc'])
+        history_sgd = model_sgd.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_rmsprop.compile(optimizer = 'RMSprop', loss = self._loss, metrics = ['acc'])
+        history_rmsprop = model_rmsprop.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_adagrad.compile(optimizer = 'Adagrad', loss = self._loss, metrics = ['acc'])
+        history_adagrad = model_adagrad.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_adadelta.compile(optimizer = 'Adadelta', loss = self._loss, metrics = ['acc'])
+        history_adadelta = model_adagrad.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_adam.compile(optimizer = 'adam', loss = self._loss, metrics = ['acc'])
+        history_adam = model_adam.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_ftrl.compile(optimizer = 'Ftrl', loss = self._loss, metrics = ['acc'])
+        history_ftrl = model_ftrl.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_nadam.compile(optimizer = 'Nadam', loss = self._loss, metrics = ['acc'])
+        history_nadam = model_nadam.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+
+        model_adamax.compile(optimizer = 'Adamax', loss = self._loss, metrics = ['acc'])
+        history_adamax = model_adamax.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
+        
+        delete_model_instance(temp)
+        return [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
     def get_plots():
         return list of plot object    
