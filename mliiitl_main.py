@@ -30,11 +30,15 @@ class mliiitl:
                 pass 
         return self
 
+    def delete_model_instance(model):
+
+
     def save_model_instance(model):
         '''
         saves model
         '''
-        return path
+        model.save('temp_model')
+        return 'temp_model'
     
     def splice_dataset_randomly():
         '''
