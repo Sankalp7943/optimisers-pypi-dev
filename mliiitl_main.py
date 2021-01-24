@@ -40,13 +40,19 @@ class mliiitl:
         model.save('temp_model')
         return 'temp_model'
     
-    def splice_dataset_randomly():
+    def splice_dataset_randomly(x_train,y_train):
         '''
         splices 1/8th data randomly for training
         '''
-        return dataset
+        number_of_rows = x_train.shape[0]
+        random_indices = np.random.choice(number_of_rows, size=number_of_rows//8, replace=False)
+        spliced_x_train = x_train[random_indices, :]
+        spliced_y_train = y_train[random_indices, :]
+
+        return spliced_x_train,spliced_y_train
     
     def test_performance()
+    
         return list of trained models
 
     def get_plots():
