@@ -3,7 +3,8 @@ import matplotlib as plt
 import keras
 import tensorflow as tf
 import sys
-
+import os
+import shutil
 
 class mliiitl:
     '''
@@ -32,8 +33,15 @@ class mliiitl:
         return self
 
     def delete_model_instance(temp):
-        
-        pass
+        location = os.getcwd()
+        folder = 'temp_model'
+        path = os.path.join(location, folder)
+        try:
+            shutil.rmtree(path, ignore_errors = True)
+        except Exception:
+            print("Could not delete directory'temp_model',\
+             Kindly delete the folder from current working directory.\
+             May cause issues otherwise.")
 
 
     def save_model_instance(model):
