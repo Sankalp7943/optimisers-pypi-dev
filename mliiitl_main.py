@@ -42,6 +42,13 @@ class mliiitl:
             print("Could not delete directory'temp_model',\
              Kindly delete the folder from current working directory.\
              May cause issues otherwise.")
+    
+    def save_output_model(arr_models, key):
+        count = 1
+        for model in arr_models:
+            model.save('model_{model}'.format(model = key[count]))
+            count += 1
+        print('Models saved in {folder}'.format(folder = os.getcwd()))
 
 
     def save_model_instance(model):
@@ -108,6 +115,13 @@ class mliiitl:
         output = [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
         print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
+        key = {1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'}
+        
+        if save:
+            arr_models = [model_sgd, model_rmsprop, model_adagrad, model_adadelta, model_adam,
+             model_ftrl, model_nadam, model_adamax]
+            save_output_model(arr_models, key)
+
         if plots:
             get_plots(output)
             return output
