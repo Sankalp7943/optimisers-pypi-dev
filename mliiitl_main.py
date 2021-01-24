@@ -4,6 +4,7 @@ import keras
 import tensorflow as tf
 import sys
 
+
 class mliiitl:
     '''
     Creates mliiitl object from all the user data
@@ -31,6 +32,7 @@ class mliiitl:
         return self
 
     def delete_model_instance(temp):
+        
         pass
 
 
@@ -52,7 +54,7 @@ class mliiitl:
 
         return spliced_x_train,spliced_y_train
     
-    def test_performance(self):
+    def test_performance(self, plots = False):
         '''
 
         '''
@@ -95,9 +97,59 @@ class mliiitl:
         history_adamax = model_adamax.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
         
         delete_model_instance(temp)
-        return [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
+        output = [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
-    def get_plots():
-        return list of plot object    
+        print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
+        if plots:
+            get_plots(output)
+            return output
+        else:
+            return output
+
+    def get_plots(output):
+        key = {1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'}
+        count = 1
+        for history in output:
+            plt.plot(history.history['acc'], label = key[count])
+            count += 1
+        plt.title('Model Training Accuracy')
+        plt.ylabel('Training Accuracy')
+        plt.xlabel('Epoch(s)')
+        plt.legend()
+        plt.figure(figsize = (15,10))
+        plt.show()
         
+        count = 1
+        for history in output:
+            plt.plot(history.history['val_acc'], label = key[count])
+            count += 1
+        plt.title('Model Validation Accuracy')
+        plt.ylabel('Validation Accuracy')
+        plt.xlabel('Epoch(s)')
+        plt.legend()
+        plt.figure(figsize = (15,10))
+        plt.show()
+
+        count = 1
+        for history in output:
+            plt.plot(history.history['loss'], label = key[count])
+            count += 1
+        plt.title('Model Training Loss')
+        plt.ylabel('Training Loss')
+        plt.xlabel('Epoch(s)')
+        plt.legend()
+        plt.figure(figsize = (15,10))
+        plt.show()
+
+        count = 1
+        for history in output:
+            plt.plot(history.history['val_loss'], label = key[count])
+            count += 1
+        plt.title('Model Validation Loss')
+        plt.ylabel('Validation Loss')
+        plt.xlabel('Epoch(s)')
+        plt.legend()
+        plt.figure(figsize = (15,10))
+        plt.show()
+       
 
