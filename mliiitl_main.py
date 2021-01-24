@@ -69,7 +69,7 @@ class mliiitl:
 
         return spliced_x_train,spliced_y_train
     
-    def test_performance(self, plots = False):
+    def test_performance(self, plots = False, save = False):
         '''
 
         '''
@@ -116,7 +116,7 @@ class mliiitl:
 
         print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
         key = {1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'}
-        
+
         if save:
             arr_models = [model_sgd, model_rmsprop, model_adagrad, model_adadelta, model_adam,
              model_ftrl, model_nadam, model_adamax]
