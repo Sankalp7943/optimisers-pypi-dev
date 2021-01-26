@@ -30,7 +30,7 @@ class mliiitl:
                 print('Invalid arguments given in mliiitl.__init__()', file = sys.stdout)
             except Exception:
                 pass 
-        return self
+        
 
     def delete_model_instance(temp):
         location = os.getcwd()
@@ -76,9 +76,9 @@ class mliiitl:
         '''
 
         '''
-        temp = save_model_instance(self._model)
-        spliced_x_train, spliced_y_train = splice_dataset_randomly(self._x_train, self._y_train, factor)
-
+        temp = mliiitl.save_model_instance(self._model)
+        #spliced_x_train, spliced_y_train = mliiitl.splice_dataset_randomly(self._x_train, self._y_train, factor)
+        spliced_x_train, spliced_y_train = self._x_train, self._y_train
         model_sgd = tf.keras.models.load_model('temp_model')
         model_rmsprop = tf.keras.models.load_model('temp_model')
         model_adagrad = tf.keras.models.load_model('temp_model')
@@ -114,7 +114,7 @@ class mliiitl:
         model_adamax.compile(optimizer = 'Adamax', loss = self._loss, metrics = ['acc'])
         history_adamax = model_adamax.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
         
-        delete_model_instance(temp)
+        #mltiiitl.delete_model_instance(temp)
         output = [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
         print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
@@ -123,10 +123,10 @@ class mliiitl:
         if save:
             arr_models = [model_sgd, model_rmsprop, model_adagrad, model_adadelta, model_adam,
              model_ftrl, model_nadam, model_adamax]
-            save_output_model(arr_models, key)
+            mliiitl.save_output_model(arr_models, key)
 
         if plots:
-            get_plots(output)
+            mliiitl.get_plots(output)
             return output
         else:
             return output
