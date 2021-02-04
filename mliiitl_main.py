@@ -45,6 +45,7 @@ class mliiitl:
             print("Could not delete directory'temp_model',\
              Kindly delete the folder from current working directory.\
              May cause issues otherwise.")
+             pass
     
     def save_output_model(arr_models, key):
         count = 1
@@ -68,8 +69,10 @@ class mliiitl:
         if factor < 1:
             factor = 1
             print("Factor cannot be less than 1, defaulted to value 1")
-        number_of_rows = x_train.shape[0]
+        array_new = np.hstack((x_train, np.atleast_2d(y_train).T))
+        number_of_rows = array_new.shape[0]
         random_indices = np.random.choice(number_of_rows, size=number_of_rows//factor, replace=False)
+        spliced_array_new = array_new[random_indices, :]
         spliced_x_train = x_train[random_indices, :]
         spliced_y_train = y_train[random_indices, :]
 
