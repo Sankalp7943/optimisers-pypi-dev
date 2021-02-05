@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(   
     name = 'ML-IIITL',
-    version = '1.0.0',
+    version = '1.5.0',
 
     description = 'A helping package for ML written by Sankalp',
     long_description = 'A helping package for quick model performance comparison based on different optimisers',
@@ -22,7 +22,6 @@ setup(
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Machine Learning',
 
         # Pick your license as you wish
         'License :: OSI Approved :: MIT License',
@@ -41,12 +40,13 @@ setup(
     project_urls={
         'Developer': 'https://sharmasankalp.com'
     },
-    packages=find_packages(include=['mliiitl']),
+    python_requires='>=3.6',
+    packages=['.ML-IIITL'],
     install_requires=[  'numpy',
                         'pandas',
                         'matplotlib',
                         'keras',
-                        'tensorflow',
+                        'tensorflow-gpu',
                         ],
 )
 
