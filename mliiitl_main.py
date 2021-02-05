@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt_1
 import matplotlib.pyplot as plt_2
 import matplotlib.pyplot as plt_3
@@ -35,17 +36,20 @@ class mliiitl:
                 pass 
         
 
-    def delete_model_instance(temp):
+    def delete_model_instance(self):
+        print("hello")
         location = os.getcwd()
         folder = 'temp_model'
         path = os.path.join(location, folder)
+        print(path)
+        print("hello")
         try:
-            shutil.rmtree(path, ignore_errors = True)
+            shutil.rmtree(path)
         except Exception:
             print("Could not delete directory'temp_model',\
              Kindly delete the folder from current working directory.\
              May cause issues otherwise.")
-             pass
+            pass
     
     def save_output_model(arr_models, key):
         count = 1
@@ -73,9 +77,11 @@ class mliiitl:
         number_of_rows = array_new.shape[0]
         random_indices = np.random.choice(number_of_rows, size=number_of_rows//factor, replace=False)
         spliced_array_new = array_new[random_indices, :]
-        spliced_x_train = x_train[random_indices, :]
-        spliced_y_train = y_train[random_indices, :]
-
+        df = pd.DataFrame(spliced_array_new)
+        df_y = df.iloc[:, x_train.shape[1]:]
+        df_x = df.iloc[:, :x_train.shape[1]]
+        spliced_y_train = df_y.to_numpy()
+        spliced_x_train = df_x.to_numpy()
         return spliced_x_train,spliced_y_train
     
     def test_performance(self, plots = False, save = False, factor = 8):
@@ -83,8 +89,7 @@ class mliiitl:
 
         '''
         temp = mliiitl.save_model_instance(self._model)
-        #spliced_x_train, spliced_y_train = mliiitl.splice_dataset_randomly(self._x_train, self._y_train, factor)
-        spliced_x_train, spliced_y_train = self._x_train, self._y_train
+        spliced_x_train, spliced_y_train = mliiitl.splice_dataset_randomly(self._x_train, self._y_train, factor)
         model_sgd = tf.keras.models.load_model('temp_model')
         model_rmsprop = tf.keras.models.load_model('temp_model')
         model_adagrad = tf.keras.models.load_model('temp_model')
@@ -120,7 +125,7 @@ class mliiitl:
         model_adamax.compile(optimizer = 'Adamax', loss = self._loss, metrics = ['acc'])
         history_adamax = model_adamax.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
         
-        #mltiiitl.delete_model_instance(temp)
+        mltiiitl.delete_model_instance()
         output = [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
         print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
