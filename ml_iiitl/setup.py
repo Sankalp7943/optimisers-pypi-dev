@@ -2,8 +2,8 @@
 from setuptools import setup, find_packages
 
 setup(   
-    name = 'ML-IIITL',
-    version = '1.5.0',
+    name = 'mliiitl',
+    version = '1.6.0',
 
     description = 'A helping package for ML written by Sankalp',
     long_description = 'A helping package for quick model performance comparison based on different optimisers',
@@ -41,7 +41,7 @@ setup(
         'Developer': 'https://sharmasankalp.com'
     },
     python_requires='>=3.6',
-    packages=['.ML-IIITL'],
+    packages=['.mliiitl'],
     install_requires=[  'numpy',
                         'pandas',
                         'matplotlib',

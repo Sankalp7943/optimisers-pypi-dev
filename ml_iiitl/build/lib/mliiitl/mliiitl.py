@@ -36,7 +36,10 @@ class mliiitl:
                 pass 
         
 
-    def delete_model_instance(self):
+    def delete_model_instance(self):    #open bug: not working
+        '''
+        Deletes the temp_model
+        '''
         print("hello")
         location = os.getcwd()
         folder = 'temp_model'
@@ -52,6 +55,9 @@ class mliiitl:
             pass
     
     def save_output_model(arr_models, key):
+        '''
+        if save argument is True, save all trained models in the current working directory
+        '''
         count = 1
         for model in arr_models:
             model.save('model_{model}'.format(model = key[count]))
@@ -61,14 +67,14 @@ class mliiitl:
 
     def save_model_instance(model):
         '''
-        saves model
+        saves model (temp)
         '''
         model.save('temp_model')
         return 'temp_model'
     
     def splice_dataset_randomly(x_train, y_train, factor):
         '''
-        splices 1/8th data randomly for training
+        splices 1/8th data randomly for training, or by any user specified factor
         '''
         if factor < 1:
             factor = 1
@@ -86,7 +92,7 @@ class mliiitl:
     
     def test_performance(self, plots = False, save = False, factor = 8):
         '''
-
+        Compiles and train models on different optimisers
         '''
         temp = mliiitl.save_model_instance(self._model)
         spliced_x_train, spliced_y_train = mliiitl.splice_dataset_randomly(self._x_train, self._y_train, factor)
@@ -143,6 +149,9 @@ class mliiitl:
             return output
 
     def get_plots(output):
+        '''
+        If passed True, outputs 4 plots to visualize the performances of different models with respective optimiser.
+        '''
         key = {1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'}
         count = 1
         for history in output:

@@ -1,8 +1,0 @@
-setup.py
-ML-IIITL/__init__.py
-ML-IIITL/mliiitl.py
-ML_IIITL.egg-info/PKG-INFO
-ML_IIITL.egg-info/SOURCES.txt
-ML_IIITL.egg-info/dependency_links.txt
-ML_IIITL.egg-info/requires.txt
-ML_IIITL.egg-info/top_level.txt
