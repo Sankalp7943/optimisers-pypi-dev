@@ -131,7 +131,7 @@ class mliiitl:
         model_adamax.compile(optimizer = 'Adamax', loss = self._loss, metrics = ['acc'])
         history_adamax = model_adamax.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
         
-        mltiiitl.delete_model_instance()
+        mliiitl.delete_model_instance()
         output = [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
         print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
