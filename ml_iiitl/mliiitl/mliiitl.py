@@ -10,6 +10,26 @@ import sys
 import os
 import shutil
 
+class Hybrid(mliiitl):
+    def __init__(self):
+        super.__init__(x_train, y_train, x_test, y_test, 
+                 model, loss, epoch, batch_size)
+        return self
+
+    def run(self):
+        temp = self.save_model_instance(self._model)
+        model_hybrid = tf.keras.models.load_model('temp_model')
+        validation = (self._x_test, self._y_test)
+        key = {1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'}
+
+        for i in range(epochs+1):
+            j = (i % 8) + 1
+            model_hybrid.compile(optimizer = key[j], loss = self._loss, metrics = ['acc'])
+            history_sgd = model_hybrid.fit(spliced_x_train, spliced_y_train, epochs = 1, batch_size = self._batch_size, validation_data = validation)
+
+
+
+
 class mliiitl:
     '''
     Creates mliiitl object from all the user data
