@@ -131,7 +131,7 @@ class mliiitl:
         model_adamax.compile(optimizer = 'Adamax', loss = self._loss, metrics = ['acc'])
         history_adamax = model_adamax.fit(spliced_x_train, spliced_y_train, epochs = self._epoch, batch_size = self._batch_size, validation_data = validation)
         
-        mltiiitl.delete_model_instance()
+        mliiitl.delete_model_instance()
         output = [history_sgd, history_rmsprop, history_adagrad, history_adadelta, history_adam, history_ftrl, history_nadam, history_adamax]
 
         print("1:'SGD', 2:'RMSprop', 3:'AdaGrad', 4:'AdaDelta', 5:'Adam', 6:'Ftrl', 7:'Nadam', 8:'Adamax'")
@@ -198,3 +198,76 @@ class mliiitl:
         plt_4.show()
        
 
+
+class Hybrid(mliiitl):
+    def __init__(self, mliiitl_object, *args):
+        self.hybrid_model = mliiitl_object
+        if args:
+            optimisers = list(args)
+        else:
+            raise Exception("Pass name of the optimisers")
+        self.list_of_optimisers = optimisers
+        self.ratio = self.calculate_ratios()
+        self.quanta = None
+    
+    def calculate_ratios(self):
+        total = self.hybrid_model._epoch
+        parts = len(self.list_of_optimisers)
+        ratios = {}
+        quanta = total//parts
+        self.quanta = quanta
+        self.parts = parts
+        sum_quanta = 0
+        for _ in range(parts-1):
+            sum_quanta += quanta
+            ratios[_] = [self.list_of_optimisers[_], sum_quanta]
+        ratios[parts-1] =  [self.list_of_optimisers[-1], total-sum_quanta]
+        print(ratios)
+        return ratios
+
+    def run(self):
+        flag = 0
+        plot_val_loss, plot_loss, plot_acc, plot_val_acc = [], [], [], []
+        validation = (self.hybrid_model._x_test, self.hybrid_model._y_test)
+        model_hybrid = self.hybrid_model._model
+        j = 0
+        for i in range(1, self.hybrid_model._epoch + 1):
+            print(i, j , flag)
+            if i > self.ratio[j][1]:
+                if j < len(self.list_of_optimisers)-1:
+                    j+=1
+                    if j < len(self.list_of_optimisers)-1 and flag == 1:
+                        flag = 2
+                        print("Running {epoch} epoch(s) on {optimiser}"
+                              .format(epoch = self.ratio[j][1] - self.ratio[j-1][1], optimiser = self.list_of_optimisers[j]))
+                    elif j == len(self.list_of_optimisers)-1 and flag == 2:
+                        flag = 3
+                        print("Running {epoch} epoch(s) on {optimiser}"
+                              .format(epoch = self.ratio[j][1], optimiser = self.list_of_optimisers[j]))
+            if j == 0 and flag == 0:
+                flag = 1
+                print("Running {epoch} epoch(s) on {optimiser}"
+                .format(epoch = self.ratio[j][1], optimiser = self.list_of_optimisers[j]))
+            model_hybrid.compile(optimizer = self.list_of_optimisers[j], loss = self.hybrid_model._loss, metrics = ['acc'])
+            if i!=1:
+                model_hybrid.set_weights(old_weights)
+            history = model_hybrid.fit(
+                self.hybrid_model._x_train,
+                self.hybrid_model._y_train,
+                epochs = 1,
+                batch_size = self.hybrid_model._batch_size,
+                validation_data = validation,
+            )
+            old_weights = np.array(model_hybrid.get_weights())
+            plot_val_loss.append(history.history['val_loss'])
+            plot_loss.append(history.history['loss'])
+            plot_val_acc.append(history.history['val_acc'])
+            plot_acc.append(history.history['acc'])
+        
+        return {
+            "acc": plot_acc,
+            "loss": plot_loss,
+            "val_acc": plot_val_acc,
+            "val_loss": plot_val_loss,
+            "model": model_hybrid,
+        }
