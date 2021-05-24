@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(   
     name = 'mliiitl',
-    version = '3.0.0',
+    version = '3.5.0',
 
     description = 'A helping package for ML written by Sankalp',
     long_description = 'A helping package for quick model performance comparison based on different optimisers',
